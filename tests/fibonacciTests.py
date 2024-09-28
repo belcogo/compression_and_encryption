@@ -14,8 +14,7 @@ class TestFibonacci(unittest.TestCase):
         expected_output = ""
         encrypted_symbol = self.fibonacci.encrypt(input_simbols)
         
-        self.assertEqual(encrypted_symbol, expected_output)
-        
+        self.assertEqual(encrypted_symbol, expected_output, f"Dado a string de entrada {input_simbols}, Quando executado a função encrypt, Então o retorno será {expected_output}.")
 
 if __name__ == '__main__':
     unittest.main()

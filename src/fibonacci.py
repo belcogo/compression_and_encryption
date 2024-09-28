@@ -1,7 +1,6 @@
-
 class Fibonacci:
-    def encrypt(self, simbols):
+    def encrypt(self, symbols):
         return ""
 
-    def decrypt(self, encrypted_simbols):
+    def decrypt(self, encrypted_symbols):
         return ""
