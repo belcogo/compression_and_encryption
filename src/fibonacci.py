@@ -31,9 +31,6 @@ class Fibonacci:
             current_numb = fibonacci_array.pop()
             sum = value + current_numb
 
-            print(f"current: {current_numb}")
-            print(f"sum: {sum}")
-
             if (sum <= number):
                 value = sum
                 inversed_binary_value.append(1)
@@ -42,16 +39,16 @@ class Fibonacci:
 
         return list(reversed(inversed_binary_value))
 
-    def encrypt_symbols(self, symbols):
-        binary_output = []
-        
-        return ""
-    
     def encrypt_symbol(self, symbol):
         ascii_value = self.parser.parse_symbol_to_ascii(symbol)
         returned_binary = self.fibonacci_value(ascii_value)
+        stop_bit = '1'
 
-        return ''.join(str(value) for value in returned_binary)
+        return ''.join(str(value) for value in returned_binary) + stop_bit
+    
+    def encrypt_symbols(self, symbols : list):
+        encrypted_symbols = (self.encrypt_symbol(value) for value in symbols)
+        return ''.join(value for value in encrypted_symbols)
     
     def decrypt(self, encrypted_symbols):
         return ""

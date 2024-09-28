@@ -11,7 +11,7 @@ class TestFibonacci(unittest.TestCase):
 
     def test_fibonacci_encrypt_symbol(self):
         input_simbols = "("
-        expected_output = "10010001"
+        expected_output = "100100011"
         encrypted_symbol = self.fibonacci.encrypt_symbol(input_simbols)
         
         self.assertEqual(encrypted_symbol, expected_output, f"Dado a string de entrada {input_simbols}, Quando executado a função encrypt_symbols, Então o retorno será {expected_output}.")
@@ -23,6 +23,13 @@ class TestFibonacci(unittest.TestCase):
         output = self.fibonacci.generate_fibonacci_array(input)
 
         self.assertEqual(output, expected_return)
+    
+    def test_fibonacci_encrypt_symbols(self):
+        input_simbols = "(Oi)"
+        expected_output = "100100011001000101100100100011010100011"
+        encrypted_symbol = self.fibonacci.encrypt_symbols(input_simbols)
+        
+        self.assertEqual(encrypted_symbol, expected_output, f"Dado a string de entrada {input_simbols}, Quando executado a função encrypt_symbols, Então o retorno será {expected_output}.")
 
 
 if __name__ == '__main__':
