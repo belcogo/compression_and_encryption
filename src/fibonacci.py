@@ -50,5 +50,28 @@ class Fibonacci:
         encrypted_symbols = (self.encrypt_symbol(value) for value in symbols)
         return ''.join(value for value in encrypted_symbols)
     
-    def decrypt(self, encrypted_symbols):
+    def split_symbols(self, encrypted_symbols : str):
+        i = 0
+        symbols_array = []
+        curent_string = ''
+
+        while (i < len(encrypted_symbols)):
+            curent_string += encrypted_symbols[i]
+
+            if (i == len(encrypted_symbols) - 1 or (encrypted_symbols[i] == '1' and encrypted_symbols[i + 1] == '1')):
+                symbols_array.append(curent_string)
+                curent_string = ''
+                i += 1
+            
+            i += 1
+        
+        return symbols_array
+
+    def decrypt_symbol(self, encrypted_symbol : str):
+        
+
+        return ""
+
+    def decrypt_symbols(self, encrypted_symbols : str):
+        encrypted_symbols_array = self.split_symbols(encrypted_symbols)
         return ""
