@@ -36,14 +36,29 @@ class TestFibonacci(unittest.TestCase):
         expected_output = ["10010001", "001000101", "0010010001", "01010001"]
 
         output = self.fibonacci.split_symbols(input)
-        self.assertEqual(output, expected_output, f"Dado a string de entrada {input}, Quando executado a função decrypt_symbol, Então o retorno será {expected_output}.")
+        self.assertEqual(output, expected_output, f"Dado a string de entrada {input}, Quando executado a função split_symbols, Então o retorno será {expected_output}.")
+
+    def test_get_fibonnaci_sum(self):
+        input_symbol = "10010001"
+        expected_output = 40
+        decrypted_symbol = self.fibonacci.get_fibonnaci_sum(input_symbol)
+        
+        self.assertEqual(decrypted_symbol, expected_output, f"Dado a string de entrada {input_symbol}, Quando executado a função get_fibonnaci_sum, Então o retorno será {expected_output}.")
+
 
     def test_fibonacci_decrypt_symbol(self):
-        input_symbol = "100100011"
+        input_symbol = "10010001"
         expected_output = "("
         decrypted_symbol = self.fibonacci.decrypt_symbol(input_symbol)
         
         self.assertEqual(decrypted_symbol, expected_output, f"Dado a string de entrada {input_symbol}, Quando executado a função decrypt_symbol, Então o retorno será {expected_output}.")
+
+    def test_fibonacci_decrypt_symbols(self):
+        input_symbol = "100100011001000101100100100011010100011"
+        expected_output = "(Oi)"
+        decrypted_symbols = self.fibonacci.decrypt_symbols(input_symbol)
+        
+        self.assertEqual(decrypted_symbols, expected_output, f"Dado a string de entrada {input_symbol}, Quando executado a função decrypt_symbol, Então o retorno será {expected_output}.")
 
 if __name__ == '__main__':
     unittest.main()

@@ -17,7 +17,7 @@ def process_text():
             output_text = f"Codificado com Huffman: {input_text}"
     elif operation == 'Decodificação':
         if algorithm == 'Fibonacci':
-            output_text = f"Decodificado com Fibonacci: {input_text}"
+            output_text = fibonacci_alg.decrypt_symbols(input_text)
         elif algorithm == 'Huffman':
             output_text = f"Decodificado com Huffman: {input_text}"
     

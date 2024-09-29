@@ -66,12 +66,35 @@ class Fibonacci:
             i += 1
         
         return symbols_array
+    
+    def get_fibonnaci_sum(self, encrypted_symbol : str):
+        sum = 0
+        aux = 0
+        previous = 1
+        now = 2
+
+        if (encrypted_symbol[0] == '1'):
+            sum += previous
+        if (encrypted_symbol[1] == '1'):
+            sum += now
+
+        for i in range(2, len(encrypted_symbol)):
+            aux = now
+            now = now + previous
+            previous = aux
+
+            if (encrypted_symbol[i] == '1'):
+                sum += now
+
+        return sum
 
     def decrypt_symbol(self, encrypted_symbol : str):
+        ascii_number = self.get_fibonnaci_sum(encrypted_symbol)
+        return self.parser.parse_ascii_to_symbol(ascii_number)
         
-
-        return ""
 
     def decrypt_symbols(self, encrypted_symbols : str):
         encrypted_symbols_array = self.split_symbols(encrypted_symbols)
-        return ""
+        symbols_decrypted = (self.decrypt_symbol(val) for val in encrypted_symbols_array)
+
+        return "".join(value for value in symbols_decrypted)
