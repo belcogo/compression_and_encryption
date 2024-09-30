@@ -18,26 +18,25 @@ class Huffmann:
   def __init__(self):
     self.tree = Node(None, 0)
     self.dictionary = {}
-    self.maxLen = 0
-    self.arrayOfSymbols = []
 
   
-  def findSymbol(self, symbol):
+  def findSymbol(self, symbol, arrayOfSymbols):
     result = False
-    for index, node in enumerate(self.arrayOfSymbols):
+    for index, node in enumerate(arrayOfSymbols):
       if (node.value == symbol):
         result = index
         break
     return result
    
   def mountBaseArray(self, symbols):
+    arrayOfSymbols = []
     for symbol in list(symbols):
-      index = self.findSymbol(symbol)
+      index = self.findSymbol(symbol, arrayOfSymbols)
       if(index != False or str(index) == str(0)):
-        self.arrayOfSymbols[index].updateNumberOfOcurence(1)
+        arrayOfSymbols[index].updateNumberOfOcurence(1)
       else:
-        self.arrayOfSymbols.append(Node(symbol, 1))
-    self.arrayOfSymbols = sorted(self.arrayOfSymbols, key=lambda node: node.numberOfOcurence, reverse=False)
+        arrayOfSymbols.append(Node(symbol, 1))
+    return sorted(arrayOfSymbols, key=lambda node: node.numberOfOcurence, reverse=False)
 
   def mountTree(self, charNode, rootNode):
     nodeToReturn = None
@@ -78,18 +77,17 @@ class Huffmann:
     return codeWord
         
   def encode(self, symbols):
-    self.mountBaseArray(symbols)
+    arrayOfSymbols = self.mountBaseArray(symbols)
+    print(arrayOfSymbols[2].numberOfOcurence)
     rootNode = self.tree
-    for charNode in self.arrayOfSymbols:
+    for charNode in arrayOfSymbols:
       rootNode = self.mountTree(charNode, rootNode)
     self.tree = rootNode.right
-    # self.printTree(self.tree)
-    codeWord = ''
-    for charNode in self.arrayOfSymbols:
-      codeWord = self.mountCodeword(self.tree, charNode.value)
-      self.dictionary.update({ charNode.value: codeWord })
-    # print(self.dictionary)
-    self.maxLen = len(codeWord)
+    for charNode in arrayOfSymbols:
+      self.dictionary.update({ charNode.value: self.mountCodeword(self.tree, charNode.value) })
+    
+    self.printTree(self.tree)
+    print(self.dictionary)
   
   def decode(self, symbols):
     print(symbols)
@@ -102,5 +100,7 @@ class Huffmann:
     print(symbols)
     
 
-    
+huff = Huffmann()
+huff.encode("beeel") 
+huff.decode("10")  
 
