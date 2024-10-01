@@ -1,25 +1,35 @@
 import tkinter as tk
 from tkinter import ttk
 from src.fibonacci import Fibonacci
+from src.golomb import Golomb
+
+golomb_k = None
 
 def process_text():
+    global golomb_k
     input_text = input_entry.get()
     operation = operation_var.get()
     algorithm = algorithm_var.get()
 
     fibonacci_alg = Fibonacci()
-    
+    golomb_alg = Golomb()
+
     # Aqui você pode implementar a lógica para codificação e decodificação
     if operation == 'Codificação':
         if algorithm == 'Fibonacci':
             output_text = fibonacci_alg.encrypt_symbols(input_text)
         elif algorithm == 'Huffman':
             output_text = f"Codificado com Huffman: {input_text}"
+        elif algorithm == 'Golomb':
+            output_text, k = golomb_alg.golomb_encoder(input_text)
+            golomb_k = k
     elif operation == 'Decodificação':
         if algorithm == 'Fibonacci':
             output_text = fibonacci_alg.decrypt_symbols(input_text)
         elif algorithm == 'Huffman':
             output_text = f"Decodificado com Huffman: {input_text}"
+        elif algorithm == 'Golomb':
+            output_text = golomb_alg.golomb_decoder(input_text, golomb_k)
     
     output_text_area.delete(1.0, tk.END)  # Limpa o campo de saída
     output_text_area.insert(tk.END, output_text)  # Insere o texto no campo de saída
@@ -45,7 +55,7 @@ operation_select.pack(pady=5)
 algorithm_var = tk.StringVar(value='Fibonacci')
 algorithm_label = tk.Label(root, text="Escolha o algoritmo:")
 algorithm_label.pack(pady=5)
-algorithm_select = ttk.Combobox(root, textvariable=algorithm_var, values=["Fibonacci", "Huffman"])
+algorithm_select = ttk.Combobox(root, textvariable=algorithm_var, values=["Fibonacci", "Huffman", "Golomb"])
 algorithm_select.pack(pady=5)
 
 # Output de texto
