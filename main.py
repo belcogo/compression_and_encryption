@@ -1,9 +1,12 @@
 import tkinter as tk
 from tkinter import ttk
+import numpy as np
 from src.fibonacci import Fibonacci
 from src.golomb import Golomb
+from src.huffmann import Huffmann
 
 golomb_k = None
+huffmann_alg = Huffmann()
 
 def process_text():
     global golomb_k
@@ -19,7 +22,7 @@ def process_text():
         if algorithm == 'Fibonacci':
             output_text = fibonacci_alg.encrypt_symbols(input_text)
         elif algorithm == 'Huffman':
-            output_text = f"Codificado com Huffman: {input_text}"
+            output_text = huffmann_alg.encode(input_text)
         elif algorithm == 'Golomb':
             output_text, k = golomb_alg.golomb_encoder(input_text)
             golomb_k = k
@@ -27,7 +30,7 @@ def process_text():
         if algorithm == 'Fibonacci':
             output_text = fibonacci_alg.decrypt_symbols(input_text)
         elif algorithm == 'Huffman':
-            output_text = f"Decodificado com Huffman: {input_text}"
+            output_text = huffmann_alg.decode(input_text)
         elif algorithm == 'Golomb':
             output_text = golomb_alg.golomb_decoder(input_text, golomb_k)
     

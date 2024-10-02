@@ -87,20 +87,20 @@ class Huffmann:
       self.dictionary.update({ charNode.value: self.mountCodeword(self.tree, charNode.value) })
     
     self.printTree(self.tree)
-    print(self.dictionary)
+    array = list(symbols)
+    encoded = ""
+    for item in array:
+      encoded += self.dictionary[item]
+    return encoded
+    
   
   def decode(self, symbols):
-    print(symbols)
     items = self.dictionary.items()
     for item in items:
       [symbol, codeword] = item
       indexOfCodeword = symbols.find(codeword)
       if indexOfCodeword != False or str(indexOfCodeword) == str(0):
         symbols = symbols.replace(codeword, symbol)
-    print(symbols)
-    
 
-huff = Huffmann()
-huff.encode("beeel") 
-huff.decode("10")  
+    return symbols
 
