@@ -77,6 +77,7 @@ class Huffmann:
     return codeWord
         
   def encode(self, symbols):
+    self.__init__()
     arrayOfSymbols = self.mountBaseArray(symbols)
     print(arrayOfSymbols[2].numberOfOcurence)
     rootNode = self.tree
