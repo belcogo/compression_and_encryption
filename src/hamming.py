@@ -30,10 +30,7 @@ class Hamming:
 
   def get_hamming_code(self, binary_word):
     # Obtém as informações de cada bit
-    s1 = binary_word[0]
-    s2 = binary_word[1]
-    s3 = binary_word[2]
-    s4 = binary_word[3]
+    s1, s2, s3, s4 = map(int, binary_word)
 
     # Cálcula os bits de verificação
     t5 =  int(s1) ^ int(s2) ^ int(s3)
@@ -43,16 +40,9 @@ class Hamming:
     return f"{s1}{s2}{s3}{s4}{t5}{t6}{t7}"
 
   def validate_has_error(self, hamming_code):
-
     # Obtém as informações de cada bit.
-    s1 = hamming_code[0]
-    s2 = hamming_code[1]
-    s3 = hamming_code[2]
-    s4 = hamming_code[3]
-    t5 = hamming_code[4]
-    t6 = hamming_code[5]
-    t7 = hamming_code[6]
-    
+    s1, s2, s3, s4, t5, t6, t7 = map(int, hamming_code)
+
     # Verifica valor esperado com base em cálculo.
     t5_calculated = int(s1) ^ int(s2) ^ int(s3)
     t6_calculated = int(s2) ^ int(s3) ^ int(s4)
