@@ -58,18 +58,88 @@ class Hamming:
       "has_error": calculated != received
     }
 
+  def correct_error(self, hamming_code, calculated, received):
+    # Extrai os bits de dados e paridade.
+    data_bits = list(hamming_code[:4])
+    calculated_parity = list(calculated[4:])
+    received_parity = list(received[4:])  # Transformar em lista mutável.
+
+    # Identifica os bits de paridade que não correspondem.
+    mismatch_positions = [i for i in range(3) if calculated_parity[i] != received_parity[i]]
+
+    # Se houver mais de um erro, não é possível corrigir.
+    if len(mismatch_positions) > 1:
+        return "", False
+
+    # Se não houver erro, retorna os bits de dados diretamente.
+    if len(mismatch_positions) == 0:
+        return "".join(data_bits), True
+
+    # Correções específicas para os bits de paridade e dados.
+    # Erro no primeiro bit de paridade.
+    if (received_parity[0] != calculated_parity[0]) and (received_parity[1] == calculated_parity[1]) and (received_parity[2] == calculated_parity[2]):
+        received_parity[0] = calculated_parity[0]
+
+    # Erro no segundo bit de paridade.
+    if (received_parity[0] == calculated_parity[0]) and (received_parity[1] != calculated_parity[1]) and (received_parity[2] == calculated_parity[2]):
+        received_parity[1] = calculated_parity[1]
+
+    # Erro no terceiro bit de paridade.
+    if (received_parity[0] == calculated_parity[0]) and (received_parity[1] == calculated_parity[1]) and (received_parity[2] != calculated_parity[2]):
+        received_parity[2] = calculated_parity[2]
+
+    # Correções nos bits de dados.
+    if (received_parity[0] != calculated_parity[0]) and (received_parity[1] == calculated_parity[1]) and (received_parity[2] != calculated_parity[2]):
+        data_bits[0] = '1' if data_bits[0] == '0' else '0'
+
+    if (received_parity[0] != calculated_parity[0]) and (received_parity[1] != calculated_parity[1]) and (received_parity[2] == calculated_parity[2]):
+        data_bits[1] = '1' if data_bits[1] == '0' else '0'
+
+    if (received_parity[0] != calculated_parity[0]) and (received_parity[1] != calculated_parity[1]) and (received_parity[2] != calculated_parity[2]):
+        data_bits[2] = '1' if data_bits[2] == '0' else '0'
+
+    if (received_parity[0] == calculated_parity[0]) and (received_parity[1] != calculated_parity[1]) and (received_parity[2] != calculated_parity[2]):
+        data_bits[3] = '1' if data_bits[3] == '0' else '0'
+
+    return "".join(data_bits), True
+
   def decode(self, hamming_code):
-    if not self.validate_with_error(hamming_code):
-      return "Código inválido"
-    
-    bits = [int(bit) for bit in hamming_code]
-    
-    p1 = bits[0] ^ bits[2] ^ bits[4] ^ bits[6] # XOR dos bits 0, 2, 4 e 6
-    p2 = bits[1] ^ bits[2] ^ bits[5] ^ bits[6] # XOR dos bits 1, 2, 5 e 6
-    p3 = bits[3] ^ bits[4] ^ bits[5] ^ bits[6] # XOR dos bits 3, 4, 5 e 6
-    error_position = p1 + p2 * 2 + p3 * 4
-    if error_position > 0:
-      self.error = True
-      self.error_position = error_position
-      bits[error_position - 1] ^= 1 # Inverte o bit com erro
-    return "".join([str(bit) for bit in bits[2:]]) # Remove os bits de paridade e retorna a mensagem original
+    # Divide o código Hamming em blocos de 7 bits.
+    hamming_code = [hamming_code[i:i+7] for i in range(0, len(hamming_code), 7)]
+
+    # Decodifica cada bloco de 7 bits.
+    decoded_bits = []
+    for block in hamming_code:
+      # Obtém os bits de dados.
+      data_bits = block[:4]
+
+      # Verifica se há erro.
+      error = self.validate_has_error(block)
+
+      # Se não houver erro, mantém os bits originais.
+      if not error["has_error"]:
+        decoded_bits.append(data_bits)
+      else:
+        # Se houver erro, tenta corrigi-lo.
+        corrected, corrected_successfully = self.correct_error(block, error["calculated"], error["received"])
+        if corrected_successfully:
+          decoded_bits.append(corrected[:4])  # Adiciona apenas os bits de dados corrigidos.
+        else:
+          # Não foi possível corrigir o erro.
+          return "Não foi possível corrigir o erro."
+
+    # Junta todos os bits decodificados.
+    decoded_bits_string = "".join(decoded_bits)
+
+    # Divide os bits em grupos de 8 (para representar caracteres ASCII).
+    ascii_bit_groups = [decoded_bits_string[i:i+8] for i in range(0, len(decoded_bits_string), 8)]
+
+    # Converte os grupos de 8 bits para valores ASCII.
+    ascii_values = [int(bits, 2) for bits in ascii_bit_groups]
+
+    # Usa o método parse_ascii_to_symbols para obter a mensagem final.
+    decoded_message = "".join(self.parser.parse_ascii_to_symbols(ascii_values))
+
+    # Retorna a mensagem decodificada.
+    return decoded_message
+

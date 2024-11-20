@@ -30,3 +30,6 @@ if submit:
   if selected_algorithm == "Hamming (7,4)" and selected_method == "Codificar":
     encoded_result = hamming.encode(text_input)
     st.subheader(encoded_result)
+  elif selected_algorithm == "Hamming (7,4)" and selected_method == "Decodificar":
+    decoded_result = hamming.decode(text_input)
+    st.subheader(decoded_result)
