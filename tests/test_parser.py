@@ -22,5 +22,14 @@ class TestParser(unittest.TestCase):
 
         self.assertEqual(parsed_ascii, expected_output, f"Dado os símbolos {symbols_array}, Quando executado a função parse_symbols_to_ascii, Então o retorno será {expected_output}.")
 
+    def test_parse_decimal_to_binary(self):
+        expected_output = "01100001"
+        decimal = 97
+
+        parsed_binary = self.parser.parse_decimal_to_binary(decimal, 8)
+
+        self.assertEqual(parsed_binary, expected_output, f"Dado o valor decimal {decimal}, Quando executado a função parse_decimal_to_binary, Então o retorno será {expected_output}.")
+        
+
 if __name__ == '__main__':
     unittest.main()
