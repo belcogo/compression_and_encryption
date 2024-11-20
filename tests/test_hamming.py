@@ -9,7 +9,7 @@ class TestHamming(unittest.TestCase):
         self.hamming = Hamming()
 
 
-    def test_fibonacci_encrypt_symbol(self):
+    def test_hamming_encoded(self):
         input_simbols = "a" # ASCII 1100001 - 0110 0001
 
         # 0110 -> s1: 0, s2: 1, s3: 1, s4:0, t5: 0, t6: 0, t7: 1
@@ -20,6 +20,22 @@ class TestHamming(unittest.TestCase):
         encrypted_symbol = self.hamming.encode(input_simbols)
         
         self.assertEqual(encrypted_symbol, expected_ouput, f"Dado a string de entrada {input_simbols}, Quando executado a função encode, Então o retorno será {expected_ouput}.")
+
+    def test_validate_has_error_when_having_error(self):
+        hamming_code_with_error = "0110000" # ASCII 1100001 - 0110 0001
+
+        expected_ouput = {
+            "expected": "0110001",
+            "received": "0110000",
+            "has_error": True
+        }
+
+        result = self.hamming.validate_has_error(hamming_code_with_error)
+        
+        self.assertEqual(result, expected_ouput, f"Dado a string de entrada {hamming_code_with_error}, Quando executado a função validate_has_error, Então o retorno será {expected_ouput}.")
+
+
+
 
 if __name__ == '__main__':
     unittest.main()
