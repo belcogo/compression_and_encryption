@@ -25,7 +25,7 @@ class TestHamming(unittest.TestCase):
         hamming_code_with_error = "0110000" # ASCII 1100001 - 0110 0001
 
         expected_ouput = {
-            "expected": "0110001",
+            "calculated": "0110001",
             "received": "0110000",
             "has_error": True
         }

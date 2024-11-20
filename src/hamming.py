@@ -48,14 +48,14 @@ class Hamming:
     t6_calculated = int(s2) ^ int(s3) ^ int(s4)
     t7_calculated = int(s1) ^ int(s3) ^ int(s4)
 
-    # Atribuí valor de expected e received.
-    expected = f"{s1}{s2}{s3}{s4}{t5_calculated}{t6_calculated}{t7_calculated}"
+    # Atribuí valor de calculated e received.
+    calculated = f"{s1}{s2}{s3}{s4}{t5_calculated}{t6_calculated}{t7_calculated}"
     received = f"{s1}{s2}{s3}{s4}{t5}{t6}{t7}"
 
     return {
-      "expected": expected,
+      "calculated": calculated,
       "received": received,
-      "has_error": expected != received
+      "has_error": calculated != received
     }
 
   def decode(self, hamming_code):
