@@ -33,9 +33,9 @@ class Hamming:
     s1, s2, s3, s4 = map(int, binary_word)
 
     # Cálcula os bits de verificação
-    t5 =  int(s1) ^ int(s2) ^ int(s3)
-    t6 =  int(s2) ^ int(s3) ^ int(s4)
-    t7 = int(s1) ^ int(s3) ^ int(s4)
+    t5 =  s1 ^ s2 ^ s3
+    t6 =  s2 ^ s3 ^ s4
+    t7 = s1 ^ s3 ^ s4
 
     return f"{s1}{s2}{s3}{s4}{t5}{t6}{t7}"
 
@@ -44,9 +44,9 @@ class Hamming:
     s1, s2, s3, s4, t5, t6, t7 = map(int, hamming_code)
 
     # Verifica valor esperado com base em cálculo.
-    t5_calculated = int(s1) ^ int(s2) ^ int(s3)
-    t6_calculated = int(s2) ^ int(s3) ^ int(s4)
-    t7_calculated = int(s1) ^ int(s3) ^ int(s4)
+    t5_calculated = s1 ^ s2 ^ s3
+    t6_calculated = s2 ^ s3 ^ s4
+    t7_calculated = s1 ^ s3 ^ s4
 
     # Atribuí valor de calculated e received.
     calculated = f"{s1}{s2}{s3}{s4}{t5_calculated}{t6_calculated}{t7_calculated}"
